@@ -1,0 +1,7 @@
+﻿services:
+  meleesearch.models:
+    image: meleesearch.models
+    build:
+      context: .
+      dockerfile: MeleeSearch.Models/Dockerfile
+

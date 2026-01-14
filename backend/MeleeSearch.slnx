@@ -1,0 +1,23 @@
+<Solution>
+  <Folder Name="/1 Models/">
+    <Project Path="MeleeSearch.Models/MeleeSearch.Models.csproj" />
+  </Folder>
+  <Folder Name="/2 Data/">
+    <Project Path="MeleeSearch.Data/MeleeSearch.Data.csproj" />
+  </Folder>
+  <Folder Name="/3 Repository/">
+    <Project Path="MeleeSearch.Repositories/MeleeSearch.Repositories.csproj" />
+  </Folder>
+  <Folder Name="/4 Services/">
+    <Project Path="MeleeSearch.Services/MeleeSearch.Services.csproj" />
+  </Folder>
+  <Folder Name="/5 Applications/">
+    <Project Path="MeleeSearch.APi/MeleeSearch.APi.csproj" />
+  </Folder>
+  <Folder Name="/6 Tools/">
+    <Project Path="MeleeSearch.DataLoader/MeleeSearch.DataLoader.csproj" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path="compose.yaml" />
+  </Folder>
+</Solution>
