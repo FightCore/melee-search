@@ -6,4 +6,5 @@ public abstract class DataEntry : BaseEntity
     public string Data { get; set; } = "{}";
     public ICollection<Tag> Tags { get; set; } = new List<Tag>();
     public ICollection<Character> Characters { get; set; } = new List<Character>();
+    public string? Image { get; set; }
 }

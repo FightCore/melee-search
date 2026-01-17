@@ -1,3 +1,6 @@
+using System.Text.Json;
+using System.Text.Json.Serialization;
+
 namespace MeleeSearch.Repositories.DTOs;
 
 public class SearchCardDto
@@ -11,6 +14,9 @@ public class SearchCardDto
     public List<string> Tags { get; set; } = new();
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
+    
+    [JsonExtensionData]
+    public Dictionary<string, JsonElement>? JsonData { get; set; }
 }
 
 public class CardLink

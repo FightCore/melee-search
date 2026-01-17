@@ -10,7 +10,8 @@ public abstract class CardMapperBase : ICardMapper
     {
         PropertyNameCaseInsensitive = true,
         AllowTrailingCommas = true,
-        ReadCommentHandling = JsonCommentHandling.Skip
+        ReadCommentHandling = JsonCommentHandling.Skip,
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
     };
 
     public abstract string SupportedType { get; }
@@ -24,11 +25,21 @@ public abstract class CardMapperBase : ICardMapper
             Title = entry.Title,
             Tags = entry.Tags.Select(t => t.Name).ToList(),
             CreatedAt = entry.CreatedAt,
-            UpdatedAt = entry.UpdatedAt
+            UpdatedAt = entry.UpdatedAt,
+            Image = entry.Image,
         };
 
         try
         {
+            var dictionaryData = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(entry.Data, JsonOptions);
+            var jsonDictionary = new Dictionary<string, JsonElement>();
+            foreach (var (key, value) in dictionaryData)
+            {
+                var newKey = char.ToLower(key[0]) +  key[1..];
+                jsonDictionary.Add(newKey, value);
+            }
+
+            card.JsonData = jsonDictionary;
             var jsonData = JsonSerializer.Deserialize<JsonElement>(entry.Data, JsonOptions);
             PopulateCardFromJson(card, jsonData);
         }

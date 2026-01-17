@@ -16,6 +16,8 @@ public class DataEntryConfiguration : IEntityTypeConfiguration<DataEntry>
 
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id).HasColumnName("id");
+        
+        builder.Property(x => x.Image).HasColumnName("image");
 
         builder.Property(x => x.Title)
             .HasColumnName("title")

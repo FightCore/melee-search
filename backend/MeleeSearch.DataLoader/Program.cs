@@ -91,7 +91,8 @@ static async Task LoadFrameData(MeleeSearchDbContext context, List<JsonDataEntry
             Tags = tags,
             Characters = characters,
             CreatedAt = now,
-            UpdatedAt = now
+            UpdatedAt = now,
+            Image = item.Image
         };
 
         context.FrameData.Add(frameData);
@@ -276,4 +277,6 @@ public class JsonDataEntry
     public string Title { get; set; } = string.Empty;
     public object? Data { get; set; }
     public List<string>? Tags { get; set; }
+    
+    public string? Image { get; set; }
 }

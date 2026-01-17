@@ -7,11 +7,10 @@ export interface FrameDataCard extends SearchResultCard {
   end: number;
   totalFrames: number;
   iasa: number;
-  damage: string;
-  baseKnockback: number;
-  knockbackGrowth: number;
-  angle: number;
-  setKnockback: number;
-  hitboxId?: string;
+  damage: number[];
+  baseKnockback: number[];
+  knockbackGrowth: number[];
+  setKnockback: number[];
+  angle: number[];
   notes?: string;
 }

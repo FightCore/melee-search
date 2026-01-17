@@ -3,6 +3,7 @@ using System;
 using MeleeSearch.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MeleeSearch.Data.Migrations
 {
     [DbContext(typeof(MeleeSearchDbContext))]
-    partial class MeleeSearchDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260117123604_Updated_DataEntry_NullableImage")]
+    partial class Updated_DataEntry_NullableImage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
