@@ -1,5 +1,9 @@
+using System.Text.Json.Serialization;
+
 namespace MeleeSearch.Models.Entities;
 
+[JsonDerivedType(typeof(FrameData), typeDiscriminator: "frame-data")]
+[JsonDerivedType(typeof(CharacterAttribute), typeDiscriminator: "character-attribute")]
 public abstract class DataEntry : BaseEntity
 {
     public string Title { get; set; } = string.Empty;

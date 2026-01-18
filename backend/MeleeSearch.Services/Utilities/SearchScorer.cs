@@ -49,6 +49,12 @@ public class SearchScorer
     {
         if (string.IsNullOrWhiteSpace(context.Query))
         {
+            if (!string.IsNullOrWhiteSpace(context.Character) &&
+                entry.Characters.Any(character => character.Name == context.Character))
+            {
+                return (50, entry);
+            }
+
             return (0, entry);
         }
 

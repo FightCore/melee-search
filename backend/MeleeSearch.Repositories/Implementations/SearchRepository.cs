@@ -38,7 +38,7 @@ public class SearchRepository : ISearchRepository
             .Include(dataEntry => dataEntry.Characters)
             .ToListAsync(cancellationToken);
 
-        // await _cacheService.SetAsync(cacheKey, dataEntries, TimeSpan.FromHours(1), cancellationToken);
+        await _cacheService.SetAsync(cacheKey, dataEntries, TimeSpan.FromHours(1), cancellationToken);
 
         return dataEntries;
     }

@@ -23,7 +23,7 @@ public abstract class CardMapperBase : ICardMapper
             Id = entry.Id,
             Type = SupportedType,
             Title = entry.Title,
-            Tags = entry.Tags.Select(t => t.Name).ToList(),
+            Tags = [],
             CreatedAt = entry.CreatedAt,
             UpdatedAt = entry.UpdatedAt,
             Image = entry.Image,

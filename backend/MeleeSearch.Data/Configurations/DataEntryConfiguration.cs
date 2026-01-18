@@ -38,7 +38,7 @@ public class DataEntryConfiguration : IEntityTypeConfiguration<DataEntry>
             .IsRequired();
 
         builder.HasMany(x => x.Tags)
-            .WithMany(x => x.DataEntries)
+            .WithMany()
             .UsingEntity<Dictionary<string, object>>(
                 "data_entry_tags",
                 j => j.HasOne<Tag>().WithMany().HasForeignKey("tag_id").OnDelete(DeleteBehavior.Cascade),
@@ -46,7 +46,7 @@ public class DataEntryConfiguration : IEntityTypeConfiguration<DataEntry>
                 j => j.HasKey("data_entry_id", "tag_id"));
 
         builder.HasMany(x => x.Characters)
-            .WithMany(x => x.DataEntries)
+            .WithMany()
             .UsingEntity<Dictionary<string, object>>(
                 "data_entry_characters",
                 j => j.HasOne<Character>().WithMany().HasForeignKey("character_id").OnDelete(DeleteBehavior.Cascade),
