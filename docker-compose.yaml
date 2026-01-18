@@ -1,0 +1,50 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "4000:80"
+    depends_on:
+      - backend
+    networks:
+      - meleesearch-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: MeleeSearch.API/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:8080
+      - ConnectionStrings__DefaultConnection=Host=postgres;Database=meleesearch;Username=postgres;Password=localcontainer
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - meleesearch-network
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=localcontainer
+      - POSTGRES_DB=meleesearch
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d meleesearch"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - meleesearch-network
+
+networks:
+  meleesearch-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
