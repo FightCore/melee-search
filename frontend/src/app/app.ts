@@ -1,43 +1,83 @@
-import { Component, inject, OnDestroy, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import {
+  Component,
+  inject,
+  OnDestroy,
+  signal,
+  computed,
+  ElementRef,
+  viewChild,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { Search } from './services/search/search';
 import { SearchResultCard } from './models/search-result-card';
 import { InputTextModule } from 'primeng/inputtext';
 import { FormsModule } from '@angular/forms';
-import { Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { Subject, of } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap, tap, catchError } from 'rxjs/operators';
 import { FrameData } from './components/blocks/frame-data/frame-data';
-import { LucideAngularModule, SearchIcon } from 'lucide-angular';
+import { LoaderCircle, LucideAngularModule, SearchIcon } from 'lucide-angular';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, InputTextModule, FormsModule, FrameData, LucideAngularModule],
+  imports: [
+    InputTextModule,
+    FormsModule,
+    FrameData,
+    LucideAngularModule,
+    IconFieldModule,
+    InputIconModule,
+  ],
   templateUrl: './app.html',
   styleUrl: './app.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class App implements OnDestroy {
   protected readonly results = signal<SearchResultCard[]>([]);
+  protected readonly isLoading = signal(false);
+  protected readonly hasSearched = signal(false);
   protected query = '';
+
   private readonly search = inject(Search);
   private readonly searchSubject = new Subject<string>();
-  protected SearchIcon = SearchIcon;
+
+  protected readonly searchInput = viewChild<ElementRef<HTMLInputElement>>('searchInput');
+
+  protected readonly SearchIcon = SearchIcon;
+  protected readonly SpinnerIcon = LoaderCircle;
+
+  protected readonly showEmptyState = computed(
+    () => this.hasSearched() && !this.isLoading() && this.results().length === 0,
+  );
 
   constructor() {
     this.searchSubject
       .pipe(
         debounceTime(300),
         distinctUntilChanged(),
+        tap((query) => {
+          if (query.trim()) {
+            this.isLoading.set(true);
+          }
+        }),
         switchMap((query) => {
           if (query.trim()) {
             return this.search.execute(query);
           }
           this.results.set([]);
-          return [];
-        })
+          this.hasSearched.set(false);
+          return of([]);
+        }),
       )
       .subscribe({
-        next: (results) => this.results.set(results),
-        error: (err) => console.error('Search failed:', err),
+        next: (results) => {
+          this.results.set(results);
+          this.isLoading.set(false);
+          if (this.query.trim()) {
+            this.hasSearched.set(true);
+          }
+        },
       });
   }
 

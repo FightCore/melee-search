@@ -1,27 +1,32 @@
-<article class="mb-3 border border-neutral-700/50 rounded-lg bg-neutral-800/50 overflow-hidden">
+<article
+  class="mb-3 border border-neutral-700/50 rounded-lg bg-neutral-800/50 overflow-hidden transition-all hover:border-neutral-600/50 hover:bg-neutral-800/70"
+>
   <div class="p-4">
-    <div class="flex gap-4">
+    <div class="flex flex-col sm:flex-row gap-4">
       @if (card().image) {
-        <div class="shrink-0">
+        <div class="shrink-0 mx-auto sm:mx-0">
           <img
             [src]="card().image"
-            alt=""
+            [alt]="card().character + ' performing ' + card().move"
             crossorigin="anonymous"
             referrerpolicy="no-referrer"
-            class="w-40 h-32 rounded bg-neutral-900 object-contain"
+            class="w-32 h-24 sm:w-40 sm:h-32 rounded bg-neutral-900 object-contain"
+            loading="lazy"
           />
         </div>
       }
 
       <div class="flex-1 min-w-0">
-        <div class="flex items-start justify-between gap-4 mb-2">
-          <h3 class="text-base font-medium text-gray-100">
+        <div
+          class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-4 mb-2"
+        >
+          <h3 class="text-base font-medium text-gray-100 text-center sm:text-left">
             <span class="text-neutral-400">{{ card().character }}</span>
             <span class="text-neutral-600 mx-1">/</span>
-            {{ card().move }}
+            <span>{{ card().move }}</span>
           </h3>
           @if (card().tags.length > 0) {
-            <div class="flex gap-1.5 shrink-0">
+            <div class="flex flex-wrap justify-center sm:justify-end gap-1.5 shrink-0">
               @for (tag of card().tags; track tag) {
                 <span class="px-1.5 py-0.5 text-xs rounded bg-neutral-700/50 text-neutral-400">{{
                   tag
@@ -31,28 +36,57 @@
           }
         </div>
 
-        <div class="flex flex-wrap gap-x-4 gap-y-1 text-sm text-neutral-400 mb-2">
-          <span><span class="text-neutral-500">First active</span> {{ card().start }}f</span>
-          <span><span class="text-neutral-500">Last active</span> {{ card().end }}</span>
-          <span><span class="text-neutral-500">Total</span> {{ card().totalFrames }}f</span>
-          <span><span class="text-neutral-500">Damage</span> {{ card().damage }}%</span>
-        </div>
+        <dl
+          class="flex flex-wrap justify-center sm:justify-start gap-x-4 gap-y-1 text-sm text-neutral-400 mb-2"
+        >
+          @if (card().start) {
+            <div>
+              <dt class="inline text-neutral-500">First active</dt>
+              <dd class="inline ml-1">{{ card().start }}f</dd>
+            </div>
+          }
+
+          @if (card().end) {
+            <div>
+              <dt class="inline text-neutral-500">Last active</dt>
+              <dd class="inline ml-1">{{ card().end }}f</dd>
+            </div>
+          }
+
+          @if (card().totalFrames) {
+            <div>
+              <dt class="inline text-neutral-500">Total</dt>
+              <dd class="inline ml-1">{{ card().totalFrames }}f</dd>
+            </div>
+          }
+
+          @if (this.damagePercentages()) {
+            <div>
+              <dt class="inline text-neutral-500">Damage</dt>
+              <dd class="inline ml-1">{{ this.damagePercentages() }}</dd>
+            </div>
+          }
+        </dl>
 
         @if (card().notes) {
-          <p class="text-sm text-neutral-400 leading-relaxed">{{ card().notes }}</p>
+          <p class="text-sm text-neutral-400 leading-relaxed text-center sm:text-left">
+            {{ card().notes }}
+          </p>
         }
       </div>
     </div>
   </div>
 
   @if (card().links && card().links.length > 0) {
-    <div class="bg-neutral-900/30 px-4 py-3 flex gap-3">
+    <div
+      class="bg-neutral-900/30 px-4 py-3 flex flex-wrap justify-center sm:justify-start gap-2 sm:gap-3"
+    >
       @for (link of card().links; track link.url) {
         <a
           [href]="link.url"
           target="_blank"
           rel="noopener noreferrer"
-          class="px-4 py-2 text-sm font-medium rounded border border-neutral-600 text-neutral-300 hover:bg-neutral-700 hover:text-gray-100"
+          class="px-3 sm:px-4 py-2 text-sm font-medium rounded border border-neutral-600 text-neutral-300 hover:bg-neutral-700 hover:text-gray-100 transition-colors"
         >
           View on {{ link.description }}
         </a>
