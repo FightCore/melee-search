@@ -12,7 +12,7 @@
     <Project Path="MeleeSearch.Services/MeleeSearch.Services.csproj" />
   </Folder>
   <Folder Name="/5 Applications/">
-    <Project Path="MeleeSearch.APi/MeleeSearch.APi.csproj" />
+    <Project Path="MeleeSearch.API/MeleeSearch.API.csproj" />
   </Folder>
   <Folder Name="/6 Tools/">
     <Project Path="MeleeSearch.DataLoader/MeleeSearch.DataLoader.csproj" />
