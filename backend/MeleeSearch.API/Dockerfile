@@ -8,7 +8,7 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["MeleeSearch.API/MeleeSearch.API.csproj", "MeleeSearch.API/"]
-RUN dotnet restore "MeleeSearch.APi/MeleeSearch.API.csproj"
+RUN dotnet restore "MeleeSearch.API/MeleeSearch.API.csproj"
 COPY . .
 WORKDIR "/src/MeleeSearch.API"
 RUN dotnet build "./MeleeSearch.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
