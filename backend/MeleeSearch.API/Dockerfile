@@ -7,7 +7,7 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["MeleeSearch.APi/MeleeSearch.API.csproj", "MeleeSearch.API/"]
+COPY ["MeleeSearch.API/MeleeSearch.API.csproj", "MeleeSearch.API/"]
 RUN dotnet restore "MeleeSearch.APi/MeleeSearch.API.csproj"
 COPY . .
 WORKDIR "/src/MeleeSearch.API"
