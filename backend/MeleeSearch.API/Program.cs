@@ -50,12 +50,14 @@ var app = builder.Build();
 
 app.UseCors();
 
-if (app.Environment.IsDevelopment())
+using (var scope = app.Services.CreateScope())
 {
-    using var scope = app.Services.CreateScope();
     var dbContext = scope.ServiceProvider.GetRequiredService<MeleeSearchDbContext>();
     await dbContext.Database.MigrateAsync();
+}
 
+if (app.Environment.IsDevelopment())
+{
     app.MapOpenApi();
 }
 
