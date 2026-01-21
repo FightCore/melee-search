@@ -7,6 +7,7 @@ import {
   ElementRef,
   viewChild,
   ChangeDetectionStrategy,
+  OnInit,
 } from '@angular/core';
 import { Search } from './services/search/search';
 import { SearchResultCard } from './models/search-result-card';
@@ -18,6 +19,7 @@ import { FrameData } from './components/blocks/frame-data/frame-data';
 import { LoaderCircle, LucideAngularModule, SearchIcon } from 'lucide-angular';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -33,7 +35,7 @@ import { InputIconModule } from 'primeng/inputicon';
   styleUrl: './app.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class App implements OnDestroy {
+export class App implements OnDestroy, OnInit {
   protected readonly results = signal<SearchResultCard[]>([]);
   protected readonly isLoading = signal(false);
   protected readonly hasSearched = signal(false);
@@ -72,6 +74,10 @@ export class App implements OnDestroy {
       )
       .subscribe({
         next: (results) => {
+          if (environment.isProduction) {
+            // @ts-ignore
+            umami.track('search', { query: this.query, resultCount: results.length });
+          }
           this.results.set(results);
           this.isLoading.set(false);
           if (this.query.trim()) {
@@ -79,6 +85,12 @@ export class App implements OnDestroy {
           }
         },
       });
+  }
+  ngOnInit(): void {
+    if (environment.isProduction) {
+      // @ts-ignore
+      umami.track();
+    }
   }
 
   protected onQueryChange(query: string): void {
