@@ -11,7 +11,7 @@ export class Search {
 
   execute(search: string): Observable<SearchResultCard[]> {
     return this.httpClient.get<SearchResultCard[]>(
-      'https://localhost:7058/api/search?q=' + encodeURIComponent(search)
+      'https://api.meleesearch.com/api/search?q=' + encodeURIComponent(search),
     );
   }
 }
